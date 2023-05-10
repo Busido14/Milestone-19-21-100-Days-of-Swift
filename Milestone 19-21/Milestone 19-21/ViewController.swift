@@ -9,11 +9,15 @@ import UIKit
 
 class ViewController: UITableViewController {
     lazy var notes = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Notes"
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: #selector(addedNewNotes))
+    }
+    @objc func addedNewNotes() {
         
     }
     
@@ -26,5 +30,13 @@ class ViewController: UITableViewController {
         cell.textLabel?.text = notes[indexPath.row]
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            vc.textNote = notes[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
 }
 
